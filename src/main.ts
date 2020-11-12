@@ -1,9 +1,13 @@
+import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
+import * as config from 'config';
 
 async function bootstrap() {
+  const logger = new Logger('bootstrap');
   const app = await NestFactory.create(AppModule);
+  const serverConfig: any = config.get('server');
   const options = new DocumentBuilder()
     .setTitle('Api Tareas')
     .setDescription('Description de la API')
@@ -12,6 +16,8 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('api', app, document);
-  await app.listen(4000);
+  const PORT = process.env.PORT || serverConfig.port;
+  await app.listen(PORT);
+  logger.log(`Escuchando en el puerto ${PORT}`);
 }
 bootstrap();

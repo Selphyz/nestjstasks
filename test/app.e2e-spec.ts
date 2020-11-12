@@ -17,8 +17,8 @@ describe('AppController (e2e)', () => {
 
   it('/ (GET)', () => {
     return request(app.getHttpServer())
-      .get('/')
-      .expect(200)
-      .expect('Hello World!');
+      .get('/tasks')
+      .expect(401)
+      .expect({ statusCode: 401, message: 'Unauthorized' });
   });
 });
