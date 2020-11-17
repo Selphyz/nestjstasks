@@ -7,6 +7,7 @@ import * as config from 'config';
 async function bootstrap() {
   const logger = new Logger('bootstrap');
   const app = await NestFactory.create(AppModule);
+  app.enableCors();
   const serverConfig: any = config.get('server');
   const options = new DocumentBuilder()
     .setTitle('Api Tareas')
